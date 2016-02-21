@@ -6,3 +6,5 @@ factory-boy
 requests
 mock
 nose
+beautifulsoup4
+ipdb
