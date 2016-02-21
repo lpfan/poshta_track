@@ -4,3 +4,5 @@ pymongo
 mysqlclient
 factory-boy
 requests
+mock
+nose
