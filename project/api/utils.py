@@ -22,9 +22,12 @@ def get_parsel_via_soap(parsel_code):
 
 def get_parsel_status_html(parsel_code):
     assert parsel_code
-    url = "http://services.ukrposhta.ua/bardcodesingle/\
-           DownloadInfo.aspx?id={}".format(parsel_code)
-    _resp = requests.get(url)
-    soup = BeautifulSoup(_resp.content, 'html.parser')
-    soup.find(id="container")
+    url = 'http://services.ukrposhta.com/barcodestatistic/barcodestatistic.asmx/GetBarcodeInfo'
+    params = {
+        'guid': 'fcc8d9e1-b6f9-438f-9ac8-b67ab44391dd',
+        'culture': 'uk',
+        'barcode': parsel_code
+    }
+    _resp = requests.get(url, params=params)
+    assert _resp.status_code == 200
     return soup.get_text()

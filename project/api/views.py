@@ -7,5 +7,5 @@ from api import utils
 class ParselStatus(APIView):
 
     def get(self, request, parsel_code):
-        parsel_status = utils.get_parsel_via_soap(parsel_code)
+        parsel_status = utils.get_parsel_status_html(parsel_code)
         return Response({'status': parsel_status})
