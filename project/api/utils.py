@@ -1,33 +1,23 @@
 import requests
 from bs4 import BeautifulSoup
-from rinse.message import SoapMessage
-from rinse.client import SoapClient
-from lxml import etree
-from rinse.util import printxml
+from django.conf import settings
 
 
-def get_parsel_via_soap(parsel_code):
-    url = 'http://services.ukrposhta.com/barcodestatistic/barcodestatistic.asmx?WSDL'
-    body = etree.Element('GetBarcodeInfo')
-    guid = etree.SubElement(body, 'guid')
-    guid.text = 'fcc8d9e1-b6f9-438f-9ac8-b67ab44391dd'
-    culture = etree.SubElement(body, 'culture')
-    culture.text = 'uk'
-    barcode = etree.SubElement(body, 'barcode')
-    barcode.text = parsel_code
-    msg = SoapMessage(body)
-    client = SoapClient(url, debug=True)
-    resp = client(msg)
-
-
-def get_parsel_status_html(parsel_code):
-    assert parsel_code
-    url = 'http://services.ukrposhta.com/barcodestatistic/barcodestatistic.asmx/GetBarcodeInfo'
+def get_parsel_status(barcode):
+    assert barcode
     params = {
-        'guid': 'fcc8d9e1-b6f9-438f-9ac8-b67ab44391dd',
+        'guid': settings.UKRPOSHTA_API_TOKEN,
         'culture': 'uk',
-        'barcode': parsel_code
+        'barcode': barcode
     }
-    _resp = requests.get(url, params=params)
+    _resp = requests.get(settings.UKRPOSHTA_API_URL, params=params)
     assert _resp.status_code == 200
-    return soup.get_text()
+    soup = BeautifulSoup(_resp.content, 'xml')
+    result = {
+        'eventdescription': soup.find('eventdescription').text,
+        'lastofficeindex': soup.find('lastofficeindex').text,
+        'lastoffice': soup.find('lastoffice').text,
+        'barcode': soup.find('barcode').text,
+        'code': soup.find('code').text
+    }
+    return result

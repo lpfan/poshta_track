@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# UKRPOSHTA settings
+UKRPOSHTA_API_TOKEN = 'fcc8d9e1-b6f9-438f-9ac8-b67ab44391dd'
+UKRPOSHTA_API_URL = 'http://services.ukrposhta.com/barcodestatistic/barcodestatistic.asmx/GetBarcodeInfo'
+
 
 # Application definition
 
