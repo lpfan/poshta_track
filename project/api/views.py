@@ -9,7 +9,7 @@ class ParselStatus(APIView):
 
     def get(self, request, parsel_code):
         parsel_status = utils.get_parsel_status(parsel_code)
-        serializer = serializers.ParselSerializer(parsel_status)
+        serializer = serializers.PackageSerializer(parsel_status)
         return Response(serializer.data)
 
 

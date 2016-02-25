@@ -35,7 +35,7 @@ UKRPOSHTA_API_TOKEN = 'fcc8d9e1-b6f9-438f-9ac8-b67ab44391dd'
 UKRPOSHTA_API_URL = 'http://services.ukrposhta.com/barcodestatistic/barcodestatistic.asmx/GetBarcodeInfo'
 
 # Mongodb settings
-MONGO_DATABASE_NAME = 'poshta_parsels'
+MONGO_DATABASE_NAME = 'poshta_packages'
 MONGO_HOST = 'localhost'
 MONGO_PORT = 27017
 
@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_mongoengine',
 ]
 
 MIDDLEWARE_CLASSES = [
