@@ -3,8 +3,9 @@ from rest_framework_mongoengine import serializers as mes
 
 from api import models
 
-class PackageSerializer(mes.DocumentSerializer):
+class PackageSerializer(mes.DynamicDocumentSerializer):
 
     class Meta:
         model = models.Package
-        fields = ('barcode', 'eventdescription', 'lastoffice', 'lastofficeindex')
+        fields = ('barcode', 'eventdescription', 'lastoffice',
+                  'lastofficeindex', 'created',)

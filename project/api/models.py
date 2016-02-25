@@ -4,7 +4,7 @@ import mongoengine
 from django.db import models
 
 
-class Package(mongoengine.Document):
+class Package(mongoengine.DynamicDocument):
     eventdescription = mongoengine.fields.StringField()
     lastofficeindex = mongoengine.fields.StringField()
     lastoffice = mongoengine.fields.StringField()
