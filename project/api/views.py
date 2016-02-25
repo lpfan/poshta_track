@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_mongoengine import viewsets as mongo_viewsets
 
 from api import serializers, utils
 
@@ -12,5 +13,5 @@ class ParselStatus(APIView):
         return Response(serializer.data)
 
 
-class ParselViewSet():
+class ParselViewSet(mongo_viewsets.ModelViewSet):
     pass

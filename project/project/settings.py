@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
+from mongoengine import connect
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -30,6 +33,13 @@ ALLOWED_HOSTS = []
 # UKRPOSHTA settings
 UKRPOSHTA_API_TOKEN = 'fcc8d9e1-b6f9-438f-9ac8-b67ab44391dd'
 UKRPOSHTA_API_URL = 'http://services.ukrposhta.com/barcodestatistic/barcodestatistic.asmx/GetBarcodeInfo'
+
+# Mongodb settings
+MONGO_DATABASE_NAME = 'poshta_parsels'
+MONGO_HOST = 'localhost'
+MONGO_PORT = 27017
+
+connect(MONGO_DATABASE_NAME, host=MONGO_HOST, port=MONGO_PORT)
 
 
 # Application definition
