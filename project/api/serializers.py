@@ -1,8 +1,11 @@
 from rest_framework import serializers
+from rest_framework_mongoengine import serializers as mes
 
+from api import models
 
-class ParselSerializer(serializers.Serializer):
-    eventdescription = serializers.CharField()
-    lastofficeindex = serializers.CharField()
-    lastoffice = serializers.CharField()
-    code = serializers.CharField()
+class PackageSerializer(mes.DynamicDocumentSerializer):
+
+    class Meta:
+        model = models.Package
+        fields = ('barcode', 'eventdescription', 'lastoffice',
+                  'lastofficeindex', 'created',)

@@ -8,3 +8,5 @@ mock
 nose
 beautifulsoup4
 ipdb
+django-rest-framework-mongoengine
+mongoengine
