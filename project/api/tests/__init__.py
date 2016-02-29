@@ -4,24 +4,21 @@ from django.conf import settings
 from django.test import TestCase
 
 
-class MongoTestCase(TestCase):
+class ApiTestCase(TestCase):
     test_db = 'test_{}'.format(settings.MONGO_DATABASE_NAME)
 
     def _pre_setup(self):
         from mongoengine.connection import connect, disconnect
         disconnect()
         connect(self.test_db, port=settings.MONGO_PORT)
-        super(MongoTestCase, self)._pre_setup()
+        super(ApiTestCase, self)._pre_setup()
 
     def _post_teardown(self):
         from mongoengine.connection import get_connection, disconnect
         connection = get_connection()
         connection.drop_database(self.test_db)
         disconnect()
-        super(MongoTestCase, self)._post_teardown()
-
-
-class ApiTestCase(TestCase):
+        super(ApiTestCase, self)._post_teardown()
 
     def assertSuccess(self, response, expected_data=None):
         if response.status_code not in (HTTPStatus.OK, HTTPStatus.CREATED, HTTPStatus.ACCEPTED, HTTPStatus.NO_CONTENT):

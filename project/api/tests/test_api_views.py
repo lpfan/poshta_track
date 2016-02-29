@@ -1,7 +1,9 @@
+from datetime import datetime
+
 from django.core.urlresolvers import reverse
 
 from api import serializers
-from api.tests import ApiTestCase, MongoTestCase, factories
+from api.tests import ApiTestCase, factories
 
 
 class TestPackageStatus(ApiTestCase):
@@ -14,7 +16,7 @@ class TestPackageStatus(ApiTestCase):
         self.assertSuccess(resp)
 
 
-class TestPackageViewSet(MongoTestCase, ApiTestCase):
+class TestPackageViewSet(ApiTestCase):
 
     def _get_packages(self):
         return self.client.get(reverse('package-list'))
@@ -23,7 +25,8 @@ class TestPackageViewSet(MongoTestCase, ApiTestCase):
         return self.client.get(reverse('package-detail', args=[barcode]))
 
     def test_get_package(self):
-        package = factories.PackageFactory()
+        package = factories.PackageFactory(created=datetime.now())
+        import ipdb; ipdb.set_trace()
 
         resp = self._get_package(package.barcode)
         self.assertSuccess(resp, expected_data=serializers.PackageSerializer(package).data)
