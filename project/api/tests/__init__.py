@@ -29,5 +29,6 @@ class ApiTestCase(TestCase):
 
     def assertObjectsInResponse(self, response, expected_objects, serializer):
         self.assertSuccess(response)
+        expected_objects = [o.reload() for o in expected_objects]
         expected_data = serializer(expected_objects, many=True).data
         self.assertEqual(response.data, expected_data)

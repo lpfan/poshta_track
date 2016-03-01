@@ -26,15 +26,13 @@ class TestPackageViewSet(ApiTestCase):
 
     def test_get_package(self):
         package = factories.PackageFactory(created=datetime.now())
-        import ipdb; ipdb.set_trace()
 
         resp = self._get_package(package.barcode)
-        self.assertSuccess(resp, expected_data=serializers.PackageSerializer(package).data)
+        self.assertSuccess(resp, expected_data=serializers.PackageSerializer(package.reload()).data)
 
     def test_get_packages(self):
         package1 = factories.PackageFactory()
         package2 = factories.PackageFactory()
-        import ipdb; ipdb.set_trace()
 
         resp = self._get_packages()
         self.assertObjectsInResponse(resp, [package1, package2], serializers.PackageSerializer)
