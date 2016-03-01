@@ -32,3 +32,8 @@ class ApiTestCase(TestCase):
         expected_objects = [o.reload() for o in expected_objects]
         expected_data = serializer(expected_objects, many=True).data
         self.assertEqual(response.data, expected_data)
+
+    def assertObjectCreated(self, response, model, serializer):
+        self.assertSuccess(response)
+        instance = model.objects.get(barcode=response.data['barcode'])
+        self.assertEqual(response.data, serializer(instance).data)
