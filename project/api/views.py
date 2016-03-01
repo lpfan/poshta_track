@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_mongoengine import viewsets as mongo_viewsets
+from rest_framework_mongoengine import viewsets as rfm_viewsets
 
 from api import models, serializers, utils
 
@@ -14,5 +14,7 @@ class ParselStatus(APIView):
         return Response(serializer.data)
 
 
-class ParselViewSet(mongo_viewsets.ModelViewSet):
-    pass
+class PackageViewSet(rfm_viewsets.ModelViewSet):
+    queryset = models.Package.objects.all()
+    lookup_field = 'barcode'
+    serializer_class = serializers.PackageSerializer
