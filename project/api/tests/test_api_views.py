@@ -68,6 +68,28 @@ class TestPackageViewSet(ApiTestCase):
 
         return self.client.put(reverse('package-detail', args=[package_barcode]), data=data)
 
+    def _patch_package(self, package_barcode, barcode=None, eventdescription=None, lastofficeindex=None,
+                        lastoffice=None, code=None, created=None, updated=None, client_id=None):
+        data = {}
+        if barcode is not None:
+            data['barcode'] = barcode
+        if eventdescription is not None:
+            data['eventdescription'] = eventdescription
+        if lastofficeindex is not None:
+            data['lastofficeindex'] = lastofficeindex
+        if lastoffice is not None:
+            data['lastoffice'] = lastoffice
+        if code is not None:
+            data['code'] = code
+        if created is not None:
+            data['created'] = created
+        if updated is not None:
+            data['updated'] = updated
+        if client_id is not None:
+            data['client_id'] = client_id
+
+        return self.client.patch(reverse('package-detail', args=[package_barcode]), data=data)
+
     def test_get_package(self):
         package = factories.PackageFactory(created=datetime.now())
 
@@ -94,3 +116,22 @@ class TestPackageViewSet(ApiTestCase):
             models.Package,
             serializers.PackageSerializer
         )
+
+    def test_update_package(self):
+        package = factories.PackageFactory()
+
+        resp = self._update_package(package.barcode,
+            eventdescription='new event description',
+            lastofficeindex='12345',
+            lastoffice='post2',
+            code='54321',
+            client_id=1,
+            barcode=package.barcode
+        )
+        self.assertObjectUpdated(resp, package, serializers.PackageSerializer)
+
+    def test_patch_package(self):
+        package = factories.PackageFactory()
+
+        resp = self._patch_package(package.barcode, code='100023')
+        self.assertSuccess(resp)
