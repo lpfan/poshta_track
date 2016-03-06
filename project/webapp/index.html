@@ -46,7 +46,24 @@
     </script>
 
     <script type="text/template" id="package-list-item">
-      <td><%= id %></td><td><%= barcode %></td>
+      <td><%= id %></td>
+      <td><%= barcode %></td>
+      <td>
+        <button class="btn btn-default btn-xs js-delete-package">
+          <i class="glyphicon glyphicon-remove-circle"></i>
+          Delete
+        </button>
+      </td>
+    </script>
+
+    <script type="text/template" id="package-list">
+        <thead>
+          <tr>
+            <th>#</th><th>Barcode</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
     </script>
 
     <script type="text/javascript">
