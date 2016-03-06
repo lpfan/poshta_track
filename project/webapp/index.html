@@ -28,6 +28,10 @@
     <script src="./assets/js/vendor/underscore.js"></script>
     <script src="./assets/js/vendor/backbone.js"></script>
     <script src="./assets/js/vendor/backbone.marionette.js"></script>
+    <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/entities/package.js"></script>
+    <script src="./assets/js/apps/packages/list/list_view.js"></script>
+    <script src="./assets/js/apps/packages/list/list_controller.js"></script>
 
     <script type="text/template" id="static-template">
       <p>This is text that was rendered by our Marr app. </p>
@@ -42,73 +46,11 @@
     </script>
 
     <script type="text/template" id="package-list-item">
-      <li><%= barcode %></li>
+      <td><%= id %></td><td><%= barcode %></td>
     </script>
 
     <script type="text/javascript">
-      var Tracker = new Marionette.Application();
-
-      Tracker.addRegions({
-        mainRegion: "#main-region"
-      });
-
-      Tracker.Package = Backbone.Model.extend({
-        defaults: {
-          barcode: ""
-        }
-      });
-
-      Tracker.PackageCollection = Backbone.Collection.extend({
-        model: Tracker.Package
-      });
-
-      Tracker.PackageView = Marionette.ItemView.extend({
-        tagName: "li",
-        template: "#package-template",
-
-        events: {
-          "click p": "alertBarcode"
-        },
-
-        alertBarcode: function (e) {
-          alert(this.model.escape("barcode"));
-        }
-      });
-
-      Tracker.PackagesView = Marionette.CollectionView.extend({
-        tagName: "ul",
-        childView: Tracker.PackageView
-      });
-
-      Tracker.on("start", function(){
-        var package = new Tracker.Package({
-              barcode: 'test barcode'
-            });
-        var packageView = new Tracker.PackageView({
-              template: "#package-template",
-              model: package
-            });
-
-        var packages = new Tracker.PackageCollection([
-          {
-            barcode: "0000001"
-          },
-          {
-            barcode: "0000002"
-          },
-          {
-            barcode: "0000003"
-          }
-        ]);
-
-        var packagesListView = new Tracker.PackagesView({
-          collection: packages
-        });
-
-        Tracker.mainRegion.show(packagesListView);
-      });
-
-      Tracker.start();
+        Tracker.start();
     </script>
   </body>
 </html>
