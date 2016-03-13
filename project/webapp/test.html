@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <title>Poshta track</title>
+      <link href="./assets/css/bootstrap.css" rel="stylesheet"/>
+      <link href="./assets/css/application.css" rel="stylesheet"/>
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-default">
+      <div class="navbar-inner">
+        <div class="container">
+          <span class="navbar-brand">Track</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="main-region" class="container">
+      <p>
+        Here is static content in the web page.
+      </p>
+    </div>
+
+    <script src="./assets/js/vendor/jquery-1.10.2.js"></script>
+    <script src="./assets/js/vendor/json2.js"></script>
+    <script src="./assets/js/vendor/underscore.js"></script>
+    <script src="./assets/js/vendor/backbone.js"></script>
+    <script src="./assets/js/vendor/backbone.marionette.js"></script>
+
+    <script type="text/template" id="static-template">
+      <p>This is text that was rendered by our Marr app. </p>
+    </script>
+
+    <script type="text/template" id="different-static-template">
+      <p>Text from a different template ... </p>
+    </script>
+
+    <script type="text/template" id="package-template">
+      <p><%= barcode %></p>
+    </script>
+
+    <script type="text/template" id="package-list-item">
+      <td><%= id %></td>
+      <td><%= barcode %></td>
+      <td>
+        <button class="btn btn-default btn-xs js-delete-package">
+          <i class="glyphicon glyphicon-remove-circle"></i>
+          Delete
+        </button>
+      </td>
+    </script>
+
+    <script type="text/template" id="package-list">
+        <thead>
+          <tr>
+            <th>#</th><th>Barcode</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </script>
+
+    <script type="text/javascript">
+      var Tracker = new Marionette.Application();
+
+      Tracker.addRegions({
+        mainRegion: "#main-region"
+      });
+
+      Tracker.Package = Backbone.Model.extend({});
+
+      Tracker.PackageCollection = Backbone.Collection.extend({
+        model: Tracker.Package
+      });
+
+      Tracker.PackageItemView = Marionette.ItemView.extend({
+        tagName: "li",
+        template: "#package-list-item",
+
+        events: {
+          "click .js-delete-package": "deletePackage"
+        },
+
+        deletePackage: function (e) {
+          e.stopPropagation();
+          this.model.collection.remove(this.model);
+        }
+      });
+
+      Tracker.PackagesView = Marionette.CollectionView.extend({
+        tagName: "ul",
+        childView: Tracker.PackageItemView
+      });
+
+      Tracker.on("start", function () {
+        var packages = new Tracker.PackageCollection([
+            { 'id': 1, 'barcode': '0000001' },
+            { 'id': 2, 'barcode': '0000002' },
+            { 'id': 3, 'barcode': '0000003' }
+        ]);
+
+        var packagesView = new Tracker.PackagesView({
+          collection: packages
+        });
+
+        Tracker.mainRegion.show(packagesView);
+      });
+
+      Tracker.start();
+    </script>
+  </body>
+</html>
